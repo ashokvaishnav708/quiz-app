@@ -26,6 +26,5 @@ saveHighScore = (e) => {
 
     localStorage.setItem("highScores", JSON.stringify(highScores));
     console.log(window.location.origin);
-    // TODO: navigate to home
-    // window.location.assign("/");
+    window.location.assign("/");
 }
