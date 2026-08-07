@@ -8,7 +8,6 @@ const game = document.getElementById("game");
 
 game.classList.add("hidden");
 
-let currentQuestion = {};
 let acceptingAnswers = false;
 let score = 0;
 let questionCounter = 0;
@@ -25,7 +24,7 @@ fetch("questions.json").then(res => res.json().then(loadedQuestions => {
 // Constants
 
 const CORRECT_BONUS = 10;
-const MAX_QUESTIONS = 3;
+const MAX_QUESTIONS = questions.length;
 
 
 startGame = () => {
@@ -38,18 +37,18 @@ startGame = () => {
 };
 
 getNewQuestions = () => {
-    if (availableQuestions.length === 0 || questionCounter >=MAX_QUESTIONS) {
+    if (availableQuestions.length === 0 || questionCounter >= questions.length) {
       localStorage.setItem("mostRecentScore", score);
-        // goto the end page
-      // return window.location.assign("/end.html");
+      // goto the end page
+      return window.location.assign("/end.html");
     }
     questionCounter++;
-    progressText.innerText = `${questionCounter}/${MAX_QUESTIONS}`;
+    progressText.innerText = `${questionCounter}/${questions.length}`;
 
-    progressBarFull.style.width = `${(questionCounter / MAX_QUESTIONS) * 100}%`;
+    progressBarFull.style.width = `${(questionCounter / questions.length) * 100}%`;
 
     const questionIndex = Math.floor(Math.random() * availableQuestions.length);
-    currentQuestion = availableQuestions[questionIndex];
+    const currentQuestion = availableQuestions[questionIndex];
     question.innerText = currentQuestion.question;
 
     choices.forEach(choice => {
@@ -89,5 +88,3 @@ increamentScore = num => {
     score += num;
     scoreText.innerText = score;
 }
-
-startGame();
